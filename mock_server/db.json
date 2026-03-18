@@ -1,0 +1,209 @@
+{
+  "products": [
+    {
+      "title": "T-Shirt",
+      "price": 55,
+      "id": 2
+    },
+    {
+      "title": "books",
+      "price": 120,
+      "id": 6
+    },
+    {
+      "title": "jeans",
+      "price": 2500,
+      "id": 7
+    },
+    {
+      "title": "cap ",
+      "price": 320,
+      "userId": 9,
+      "id": 8
+    },
+    {
+      "title": "t shirt",
+      "price": 1000,
+      "userId": 1,
+      "id": 9
+    },
+    {
+      "title": "jeans ",
+      "price": 450,
+      "userId": 1,
+      "id": 10
+    },
+    {
+      "title": "food",
+      "price": 500,
+      "userId": 9,
+      "id": 11
+    },
+    {
+      "title": "phone ",
+      "price": 2000,
+      "userId": 9,
+      "id": 12
+    },
+    {
+      "title": "laptop",
+      "price": 3500,
+      "userId": 9,
+      "id": 13
+    },
+    {
+      "title": "bag",
+      "price": 200,
+      "userId": 9,
+      "id": 14
+    },
+    {
+      "title": "cover",
+      "price": 100,
+      "userId": 9,
+      "id": 15
+    },
+    {
+      "title": "test",
+      "price": 123,
+      "userId": 9,
+      "id": 16
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "email": "keerthiganthevarasa@gmail.com",
+      "password": "Keerthi@2002"
+    },
+    {
+      "email": "test@gmail.com",
+      "password": "123",
+      "id": 2
+    },
+    {
+      "email": "keerthi@gmail.com",
+      "password": "123",
+      "id": 3
+    },
+    {
+      "email": "mithun@gmail.com",
+      "password": "123",
+      "id": 4
+    },
+    {
+      "email": "sample@gmail.com",
+      "password": "123",
+      "id": 5
+    },
+    {
+      "email": "test123@gmail.com",
+      "password": "1234",
+      "id": 6
+    },
+    {
+      "email": "keerthigan@gmail.com",
+      "password": "Keerthi@2002",
+      "id": 7
+    },
+    {
+      "email": "victor@gmail.com",
+      "password": "123456",
+      "id": 8
+    },
+    {
+      "email": "banu@gmail.com",
+      "password": "123456",
+      "id": 9
+    }
+  ],
+  "cart": [],
+  "orders": [
+    {
+      "userId": 9,
+      "items": [
+        {
+          "id": 1,
+          "userId": 9,
+          "productId": 2,
+          "title": "T-Shirt",
+          "price": 55
+        }
+      ],
+      "paymentMethod": "mock_card",
+      "id": 1
+    },
+    {
+      "userId": 9,
+      "items": [
+        {
+          "id": 1,
+          "userId": 9,
+          "productId": 2,
+          "title": "T-Shirt",
+          "price": 55
+        }
+      ],
+      "paymentMethod": "mock_card",
+      "id": 2
+    },
+    {
+      "userId": 9,
+      "items": [
+        {
+          "id": 1,
+          "userId": 9,
+          "productId": 6,
+          "title": "books",
+          "price": 120
+        }
+      ],
+      "paymentMethod": "mock_card",
+      "id": 3
+    },
+    {
+      "userId": 9,
+      "items": [
+        {
+          "id": 1,
+          "userId": 9,
+          "productId": 8,
+          "title": "cap ",
+          "price": 320
+        }
+      ],
+      "paymentMethod": "mock_card",
+      "id": 4
+    },
+    {
+      "userId": 9,
+      "items": [
+        {
+          "id": 1,
+          "userId": 9,
+          "productId": 11,
+          "title": "food",
+          "price": 500
+        }
+      ],
+      "paymentMethod": "mock_card",
+      "status": "paid",
+      "id": 5
+    },
+    {
+      "userId": 9,
+      "items": [
+        {
+          "id": 1,
+          "userId": 9,
+          "productId": 7,
+          "title": "jeans",
+          "price": 2500
+        }
+      ],
+      "paymentMethod": "mock_card",
+      "status": "paid",
+      "id": 6
+    }
+  ]
+}

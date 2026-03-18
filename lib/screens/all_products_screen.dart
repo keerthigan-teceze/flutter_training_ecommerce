@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shopping/providers/auth_provider.dart';
 import 'package:shopping/providers/cart_provider.dart';
 import 'package:shopping/providers/session_provider.dart';
 import 'package:shopping/widgets/confirm_dialog.dart';
@@ -40,11 +41,18 @@ class _AllProductsScreenState extends ConsumerState<AllProductsScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () {
-              ref.read(sessionProvider.notifier).state = false;
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Logout successfully!")),
-              );
+            onPressed: () async {
+              // Properly log out
+              await ref.read(authProvider.notifier).logout();
+
+              // Show confirmation
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Logout successfully!")),
+                );
+              }
+
+              // Navigate to login
               Navigator.pushReplacementNamed(context, '/login');
             },
           ),

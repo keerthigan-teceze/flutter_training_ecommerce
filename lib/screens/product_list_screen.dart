@@ -21,18 +21,6 @@ class ProductListScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Product Catalog"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              // ✅ Clear session state
-              ref.read(sessionProvider.notifier).state = false;
-              ToastMessage.show(context, "Logout successfully!");
-              // Navigate back to login screen
-              Navigator.pushReplacementNamed(context, '/login');
-            },
-          ),
-        ],
       ),
 
       body:

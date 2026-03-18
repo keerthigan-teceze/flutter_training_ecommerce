@@ -84,7 +84,7 @@ class CheckoutScreen extends ConsumerWidget {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(50)),
-              child: const Text("Place Order (Mock Payment)"),
+              child: const Text("Place Order"),
               onPressed: () async {
                 final confirmed = await showConfirmDialog(context);
                 if (confirmed != true) return;

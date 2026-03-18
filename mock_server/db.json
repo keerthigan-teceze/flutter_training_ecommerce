@@ -68,6 +68,30 @@
       "price": 123,
       "userId": 9,
       "id": 16
+    },
+    {
+      "title": "chain",
+      "price": 150,
+      "userId": 1,
+      "id": 17
+    },
+    {
+      "title": "sample",
+      "price": 100,
+      "userId": 1,
+      "id": 18
+    },
+    {
+      "title": "sample",
+      "price": 170,
+      "userId": 9,
+      "id": 19
+    },
+    {
+      "title": "cap ",
+      "price": 300,
+      "userId": 10,
+      "id": 20
     }
   ],
   "users": [
@@ -115,6 +139,11 @@
       "email": "banu@gmail.com",
       "password": "123456",
       "id": 9
+    },
+    {
+      "email": "keerthigan123@gmail.com",
+      "password": "123456",
+      "id": 10
     }
   ],
   "cart": [],
@@ -204,6 +233,58 @@
       "paymentMethod": "mock_card",
       "status": "paid",
       "id": 6
+    },
+    {
+      "userId": 1,
+      "items": [
+        {
+          "id": 1,
+          "userId": 1,
+          "productId": 16,
+          "title": "test",
+          "price": 123
+        }
+      ],
+      "paymentMethod": "mock_card",
+      "status": "paid",
+      "id": 7
+    },
+    {
+      "userId": 1,
+      "items": [
+        {
+          "id": 1,
+          "userId": 1,
+          "productId": 10,
+          "title": "jeans ",
+          "price": 450
+        }
+      ],
+      "paymentMethod": "mock_card",
+      "status": "paid",
+      "id": 8
+    },
+    {
+      "userId": 10,
+      "items": [
+        {
+          "id": 1,
+          "userId": 10,
+          "productId": 12,
+          "title": "phone ",
+          "price": 2000
+        },
+        {
+          "id": 2,
+          "userId": 10,
+          "productId": 14,
+          "title": "bag",
+          "price": 200
+        }
+      ],
+      "paymentMethod": "mock_card",
+      "status": "paid",
+      "id": 9
     }
   ]
 }

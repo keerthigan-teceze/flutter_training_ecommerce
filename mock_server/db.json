@@ -92,6 +92,72 @@
       "price": 300,
       "userId": 10,
       "id": 20
+    },
+    {
+      "title": "cap",
+      "price": 1500,
+      "userId": 11,
+      "id": 21
+    },
+    {
+      "title": "cappp",
+      "price": 1234,
+      "userId": 1,
+      "id": 22
+    },
+    {
+      "title": "pen",
+      "price": 1234,
+      "userId": 1,
+      "id": 23
+    },
+    {
+      "title": "cat",
+      "price": 10,
+      "userId": 1,
+      "id": 24
+    },
+    {
+      "title": "tea",
+      "price": 100,
+      "userId": 1,
+      "id": 25
+    },
+    {
+      "title": "pen",
+      "price": 52,
+      "userId": 1,
+      "id": 26
+    },
+    {
+      "title": "pens ",
+      "price": 100,
+      "userId": 1,
+      "id": 27
+    },
+    {
+      "title": "dog",
+      "price": 20,
+      "userId": 1,
+      "id": 28
+    },
+    {
+      "title": "coffee",
+      "price": 150,
+      "userId": 1,
+      "id": 29
+    },
+    {
+      "title": "sugar",
+      "price": 100,
+      "userId": 1,
+      "id": 30
+    },
+    {
+      "title": "salt",
+      "price": 125,
+      "userId": 1,
+      "id": 31
     }
   ],
   "users": [
@@ -144,6 +210,11 @@
       "email": "keerthigan123@gmail.com",
       "password": "123456",
       "id": 10
+    },
+    {
+      "email": "test2@gmail.com",
+      "password": "123456",
+      "id": 11
     }
   ],
   "cart": [],
@@ -285,6 +356,36 @@
       "paymentMethod": "mock_card",
       "status": "paid",
       "id": 9
+    },
+    {
+      "userId": 11,
+      "items": [
+        {
+          "id": 1,
+          "userId": 11,
+          "productId": 10,
+          "title": "jeans ",
+          "price": 450
+        }
+      ],
+      "paymentMethod": "mock_card",
+      "status": "paid",
+      "id": 10
+    },
+    {
+      "userId": 1,
+      "items": [
+        {
+          "id": 1,
+          "userId": 1,
+          "productId": 15,
+          "title": "cover",
+          "price": 100
+        }
+      ],
+      "paymentMethod": "mock_card",
+      "status": "paid",
+      "id": 11
     }
   ]
 }

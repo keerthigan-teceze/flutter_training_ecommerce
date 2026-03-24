@@ -31,20 +31,21 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authToken = ref.watch(authProvider);
+    final isFullyOnline = ref.watch(isFullyOnlineProvider);
 
-    // Initial check for sync on app startup
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final isOnline = ref.read(connectivityProvider).value ?? false;
-      if (isOnline) {
+    // Listen for overall online status changes to trigger sync
+    ref.listen<bool>(isFullyOnlineProvider, (previous, next) {
+      if (next == true && (previous == false || previous == null)) {
+        print("🚀 [App] Server reachable! Triggering sync...");
         ref.read(syncServiceProvider).syncOfflineProducts();
-      }
-    });
-
-    // Listen for connectivity changes to trigger sync
-    ref.listen<AsyncValue<bool>>(connectivityProvider, (previous, next) {
-      if (next.value == true) {
-        print("Back Online! Triggering sync...");
-        ref.read(syncServiceProvider).syncOfflineProducts();
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Connected to Server! Syncing data...'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
       }
     });
 
@@ -59,6 +60,29 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        return Column(
+          children: [
+            if (!isFullyOnline)
+              Material(
+                child: Container(
+                  width: double.infinity,
+                  color: Colors.yellow[700],
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  alignment: Alignment.center,
+                  child: const SafeArea(
+                    bottom: false,
+                    child: Text(
+                      "Server Unreachable - Offline Mode",
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                  ),
+                ),
+              ),
+            Expanded(child: child!),
+          ],
+        );
+      },
       home: authToken.isNotEmpty
           ? const HomeScreen()
           : const LoginScreen(),

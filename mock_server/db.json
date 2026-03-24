@@ -170,6 +170,18 @@
       "price": 10,
       "userId": 1,
       "id": 33
+    },
+    {
+      "title": "product",
+      "price": 100,
+      "userId": 1,
+      "id": 34
+    },
+    {
+      "title": "testing123",
+      "price": 100,
+      "userId": 1,
+      "id": 35
     }
   ],
   "users": [

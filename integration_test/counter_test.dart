@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shopping/main_counter.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets('full counter flow test', (tester) async {
     await tester.pumpWidget(const ShoppingCounterApp());
@@ -19,7 +19,6 @@ void main() {
     final incBtn = find.byKey(const Key('incrementBtn'));
     expect(incBtn, findsOneWidget);
 
-    await tester.ensureVisible(incBtn);
     await tester.tap(incBtn);
     await tester.pumpAndSettle();
 
@@ -29,7 +28,6 @@ void main() {
     final decBtn = find.byKey(const Key('decrementBtn'));
     expect(decBtn, findsOneWidget);
 
-    await tester.ensureVisible(decBtn);
     await tester.tap(decBtn);
     await tester.pumpAndSettle();
 

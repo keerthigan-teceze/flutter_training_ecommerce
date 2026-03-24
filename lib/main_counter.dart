@@ -49,9 +49,9 @@ class _CounterScreenState extends State<CounterScreen> {
         ),
       ),
 
-      // ✅ FIXED FAB AREA (VERY IMPORTANT)
+      // ✅ FIXED FAB AREA (INCREASED HEIGHT TO AVOID OVERFLOW)
       floatingActionButton: SizedBox(
-        height: 120,
+        height: 130,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [

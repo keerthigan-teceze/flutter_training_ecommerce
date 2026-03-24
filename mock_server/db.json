@@ -158,6 +158,18 @@
       "price": 125,
       "userId": 1,
       "id": 31
+    },
+    {
+      "title": "book",
+      "price": 78,
+      "userId": 1,
+      "id": 32
+    },
+    {
+      "title": "cover",
+      "price": 10,
+      "userId": 1,
+      "id": 33
     }
   ],
   "users": [

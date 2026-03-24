@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shopping/widgets/toast_message.dart';
 import 'package:shopping/utils/validators.dart';
-import '../models/product_model.dart';
-import '../providers/product_provider.dart';
+import 'package:shopping/models/product_model.dart';
+import 'package:shopping/providers/product_provider.dart';
 
 class EditProductScreen extends ConsumerStatefulWidget {
   final Product product;
@@ -55,12 +55,16 @@ class _EditProductScreenState extends ConsumerState<EditProductScreen> {
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) { // Validate before saving
-                    await ref.read(productActionsProvider).updateProduct(
+                    final success = await ref.read(productActionsProvider).updateProduct(
                       widget.product.id,
                       titleController.text,
                       int.parse(priceController.text),
                     );
-                    ToastMessage.show(context, "Product edited successfully!");
+                    if (success) {
+                      ToastMessage.show(context, "Product edited successfully!");
+                    } else {
+                      ToastMessage.show(context, "Product saved for sync (offline)");
+                    }
                     Navigator.pop(context);
                   }
                 },

@@ -15,10 +15,14 @@ import 'models/offline_product.dart';
 import 'providers/connectivity_provider.dart';
 import 'services/sync_service.dart';
 
+// Global key to access ScaffoldMessenger from anywhere
+final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
+  Hive.registerAdapter(OfflineOperationTypeAdapter());
   Hive.registerAdapter(OfflineProductAdapter());
   await Hive.openBox<OfflineProduct>('offline_products');
 
@@ -36,10 +40,11 @@ class MyApp extends ConsumerWidget {
     // Listen for overall online status changes to trigger sync
     ref.listen<bool>(isFullyOnlineProvider, (previous, next) {
       if (next == true && (previous == false || previous == null)) {
-        print("🚀 [App] Server reachable! Triggering sync...");
+        debugPrint("🚀 [App] Server reachable! Triggering sync...");
         ref.read(syncServiceProvider).syncOfflineProducts();
         
-        ScaffoldMessenger.of(context).showSnackBar(
+        // Use scaffoldMessengerKey instead of context
+        scaffoldMessengerKey.currentState?.showSnackBar(
           const SnackBar(
             content: Text('Connected to Server! Syncing data...'),
             backgroundColor: Colors.green,
@@ -50,15 +55,17 @@ class MyApp extends ConsumerWidget {
     });
 
     if (authToken == null) {
-      return const MaterialApp(
+      return MaterialApp(
+        scaffoldMessengerKey: scaffoldMessengerKey,
         debugShowCheckedModeBanner: false,
-        home: Scaffold(
+        home: const Scaffold(
           body: Center(child: CircularProgressIndicator()),
         ),
       );
     }
 
     return MaterialApp(
+      scaffoldMessengerKey: scaffoldMessengerKey,
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
         return Column(

@@ -1,27 +1,41 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shopping/main.dart';
+import 'package:shopping/models/offline_product.dart';
+import 'package:shopping/providers/connectivity_provider.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    // Wrap MyApp with ProviderScope because it uses Riverpod providers.
-    await tester.pumpWidget(const ProviderScope(child: MyApp()));
+  setUpAll(() async {
+    // Initialize Hive for tests in a temporary directory
+    final tempDir = await Directory.systemTemp.createTemp();
+    Hive.init(tempDir.path);
+    if (!Hive.isAdapterRegistered(0)) {
+      Hive.registerAdapter(OfflineProductAdapter());
+    }
+  });
 
-    // Note: MyApp in lib/main.dart is NOT a counter app, it's a shopping app.
-    // The default template test might need to be updated to match the actual UI.
-    // However, fixing the ProviderScope error is the first step.
-    
+  testWidgets('App starts and shows loading indicator', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          // Override connectivity providers to prevent infinite loops/timeouts in pumpAndSettle
+          connectivityProvider.overrideWith((ref) => Stream.value(true)),
+          serverStatusProvider.overrideWith((ref) => Stream.value(true)),
+          // We can also override isFullyOnlineProvider directly
+          isFullyOnlineProvider.overrideWithValue(true),
+        ],
+        child: const MyApp(),
+      ),
+    );
+
     // Verify that our app starts (it shows a loading indicator initially while auth is null)
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    
+    // We can use pump() instead of pumpAndSettle() if we expect things to stay in loading state
+    await tester.pump();
   });
 }

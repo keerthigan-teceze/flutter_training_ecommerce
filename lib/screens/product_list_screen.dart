@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shopping/providers/session_provider.dart';
 import 'package:shopping/screens/add_product_screen.dart';
 import 'package:shopping/screens/edit_product_screen.dart';
 import 'package:shopping/widgets/confirm_dialog.dart';
 import 'package:shopping/widgets/toast_message.dart';
-import '../providers/product_provider.dart';
-import '../widgets/product_card.dart';
+import 'package:shopping/models/product_model.dart';
+import 'package:shopping/providers/product_provider.dart';
+import 'package:shopping/widgets/product_card.dart';
 
 
 
@@ -31,32 +31,50 @@ class ProductListScreen extends ConsumerWidget {
             itemBuilder: (_, index) {
               final product = products[index];
 
+              // Disable edit for products that are still syncing (id = -1)
+              final canEdit = product.id != -1;
+
               return ProductCard(
                 product: product,
 
-                //edit
-                onEdit: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => EditProductScreen(product: product),
-                    ),
-                  );
-                },
+                //edit - only enabled for synced products
+                onEdit: canEdit
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => EditProductScreen(product: product),
+                          ),
+                        );
+                      }
+                    : null,
 
-                //delete
-                onDelete: () async {
-                  final confirm = await showConfirmDialog(
-                    context,
-                    title: "Delete Product",
-                    message: "Are you sure you want to delete this product?",
-                  );
+                //delete - handle offline created products (id=-1) differently
+                onDelete: product.id == -1
+                    ? () async {
+                        // For offline-created products, show message that they can't be deleted yet
+                        await showConfirmDialog(
+                          context,
+                          title: "Cannot Delete",
+                          message: "This product is still syncing. Please wait until it's synced to server before deleting.",
+                        );
+                      }
+                    : () async {
+                        final confirm = await showConfirmDialog(
+                          context,
+                          title: "Delete Product",
+                          message: "Are you sure you want to delete this product?",
+                        );
 
-                  if (confirm == true) {
-                    await ref.read(productActionsProvider).deleteProduct(product.id);
-                    ToastMessage.show(context, "Product deleted successfully!");
-                  }
-                },
+                        if (confirm == true) {
+                          final success = await ref.read(productActionsProvider).deleteProduct(product.id);
+                          if (success) {
+                            ToastMessage.show(context, "Product deleted successfully!");
+                          } else {
+                            ToastMessage.show(context, "Delete saved for sync (offline)");
+                          }
+                        }
+                      },
 
               );
             },

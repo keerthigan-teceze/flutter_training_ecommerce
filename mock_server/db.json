@@ -112,7 +112,7 @@
       "id": 23
     },
     {
-      "title": "cat",
+      "title": "catsss",
       "price": 10,
       "userId": 1,
       "id": 24
@@ -166,12 +166,6 @@
       "id": 32
     },
     {
-      "title": "cover",
-      "price": 10,
-      "userId": 1,
-      "id": 33
-    },
-    {
       "title": "product",
       "price": 100,
       "userId": 1,
@@ -182,6 +176,18 @@
       "price": 100,
       "userId": 1,
       "id": 35
+    },
+    {
+      "title": "cup",
+      "price": 120,
+      "userId": 1,
+      "id": 36
+    },
+    {
+      "title": "watch",
+      "price": 520,
+      "userId": 1,
+      "id": 37
     }
   ],
   "users": [

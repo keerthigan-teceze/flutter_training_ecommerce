@@ -18,12 +18,12 @@ class SyncService {
 
   Future<void> syncOfflineProducts() async {
     print("🔄 [SyncService] syncOfflineProducts called...");
-    
+
     if (_isSyncing) {
       print("⏳ [SyncService] Already syncing, ignoring request.");
       return;
     }
-    
+
     _isSyncing = true;
 
     try {
@@ -42,20 +42,38 @@ class SyncService {
       print("📦 [SyncService] Found ${unsynced.length} items to sync.");
 
       bool anySynced = false;
+      
+      // Process each offline operation
       for (var product in unsynced) {
         try {
-          print("📤 [SyncService] Syncing product: ${product.title}...");
-          await api.createProduct({
-            "title": product.title,
-            "price": product.price,
-            "userId": product.userId,
-          });
+          print("📤 [SyncService] Syncing ${product.operationType.name} operation: ${product.title}...");
+          
+          bool success = false;
+          
+          switch (product.operationType) {
+            case OfflineOperationType.create:
+              success = await _syncCreateOperation(product);
+              break;
+            case OfflineOperationType.update:
+              success = await _syncUpdateOperation(product);
+              break;
+            case OfflineOperationType.delete:
+              success = await _syncDeleteOperation(product);
+              break;
+          }
 
-          await product.delete(); 
-          anySynced = true;
-          print("✅ [SyncService] Synced: ${product.title}");
+          if (success) {
+            // Remove the synced item from offline storage
+            await product.delete();
+            anySynced = true;
+            print("✅ [SyncService] Synced: ${product.operationType.name} - ${product.title}");
+          } else {
+            print("⚠️ [SyncService] Failed to sync ${product.operationType.name}: ${product.title}");
+            // Stop syncing and try again later
+            break;
+          }
         } catch (e) {
-          print("❌ [SyncService] Failed to sync ${product.title}: $e");
+          print("❌ [SyncService] Error syncing ${product.title}: $e");
           // If it fails, stop and try again later
           break; 
         }
@@ -68,5 +86,61 @@ class SyncService {
     } finally {
       _isSyncing = false;
     }
+  }
+
+  /// Sync a CREATE operation
+  Future<bool> _syncCreateOperation(OfflineProduct product) async {
+    try {
+      await api.createProduct({
+        "title": product.title,
+        "price": product.price,
+        "userId": product.userId,
+      });
+      return true;
+    } catch (e) {
+      print("❌ [SyncService] CREATE failed: $e");
+      return false;
+    }
+  }
+
+  /// Sync an UPDATE operation
+  Future<bool> _syncUpdateOperation(OfflineProduct product) async {
+    if (product.originalProductId == null) {
+      print("❌ [SyncService] UPDATE failed: No original product ID");
+      return false;
+    }
+    
+    try {
+      await api.updateProduct(product.originalProductId!, {
+        "title": product.title,
+        "price": product.price,
+        "userId": product.userId,
+      });
+      return true;
+    } catch (e) {
+      print("❌ [SyncService] UPDATE failed: $e");
+      return false;
+    }
+  }
+
+  /// Sync a DELETE operation
+  Future<bool> _syncDeleteOperation(OfflineProduct product) async {
+    if (product.originalProductId == null) {
+      print("❌ [SyncService] DELETE failed: No original product ID");
+      return false;
+    }
+    
+    try {
+      await api.deleteProduct(product.originalProductId!);
+      return true;
+    } catch (e) {
+      print("❌ [SyncService] DELETE failed: $e");
+      return false;
+    }
+  }
+
+  /// Manually trigger sync (can be called from UI)
+  Future<void> triggerSync() async {
+    await syncOfflineProducts();
   }
 }

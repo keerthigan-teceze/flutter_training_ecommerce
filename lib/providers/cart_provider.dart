@@ -1,9 +1,9 @@
 // providers/cart_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/product_model.dart';
-import '../models/cart_item_model.dart';
-import '../services/api_service.dart';
-import 'auth_provider.dart';
+import 'package:shopping/models/product_model.dart';
+import 'package:shopping/models/cart_item_model.dart';
+import 'package:shopping/services/api_service.dart';
+import 'package:shopping/providers/auth_provider.dart';
 
 final cartProvider =
 StateNotifierProvider<CartNotifier, List<CartItem>>((ref) {

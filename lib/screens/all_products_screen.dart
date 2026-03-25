@@ -4,8 +4,8 @@ import 'package:shopping/providers/auth_provider.dart';
 import 'package:shopping/providers/cart_provider.dart';
 import 'package:shopping/providers/session_provider.dart';
 import 'package:shopping/widgets/confirm_dialog.dart';
-import '../providers/product_search_provider.dart';
-import '../widgets/product_card.dart';
+import 'package:shopping/providers/product_search_provider.dart';
+import 'package:shopping/widgets/product_card.dart';
 
 class AllProductsScreen extends ConsumerStatefulWidget {
   const AllProductsScreen({super.key});
